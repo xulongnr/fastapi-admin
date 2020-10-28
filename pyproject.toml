@@ -50,3 +50,7 @@ fastapi-admin = "fastapi_admin.cli:main"
 
 [tool.poetry.extras]
 uvloop = ["uvloop"]
+
+[[tool.poetry.source]]
+name = "douban"
+url = "https://pypi.douban.com/simple"
