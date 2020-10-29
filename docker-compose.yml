@@ -5,6 +5,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: fastapi-admin
+    ports:
+      - '3306:3306'
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-p123456"]
       interval: 30s
@@ -17,15 +19,17 @@ services:
       DATABASE_URL: mysql://root:123456@mysql:3306/fastapi-admin
       TZ: Asia/Shanghai
     ports:
-      - '8000:8000'
+      - '80:80'
+    volumes:
+      - '../restful-admin/dist:/fastapi-admin/front'
     depends_on:
       - mysql
     image: fastapi-admin
-    command: uvicorn examples.main:app --port 8000 --host 0.0.0.0
+    command: uvicorn examples.main:app --port 80 --host 0.0.0.0
     # command: tail -f /dev/null
 
     healthcheck:
-      test: ["CMD", "/usr/bin/curl", "127.0.0.1:8000"]
+      test: ["CMD", "/usr/bin/curl", "127.0.0.1"]
       interval: 30s
       timeout: 10s
       retries: 5

@@ -3,6 +3,8 @@ import os
 import uvicorn
 from fastapi import Depends, FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
+from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 from tortoise.contrib.fastapi import register_tortoise
 from tortoise.contrib.pydantic import pydantic_queryset_creator
@@ -37,6 +39,16 @@ async def home():
 def create_app():
     fast_app = FastAPI(debug=False)
     register_tortoise(fast_app, config=TORTOISE_ORM)
+
+    home_app = FastAPI(root_path="/")
+    templates_index = Jinja2Templates(directory="front")
+    @home_app.get('/')
+    async def main(request: Request):
+        return templates_index.TemplateResponse('index.html', {"request": request})
+
+    home_app.mount('/', StaticFiles(directory='front'))
+    fast_app.mount('/app', home_app)
+
     fast_app.mount("/admin", admin_app)
 
     fast_app.add_middleware(

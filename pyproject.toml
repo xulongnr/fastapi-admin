@@ -31,6 +31,7 @@ xlsxwriter = "*"
 colorama = "*"
 prompt_toolkit = "*"
 jinja2 = "*"
+aiofiles = "*"
 
 [tool.poetry.dev-dependencies]
 flake8 = "*"
@@ -52,5 +53,7 @@ fastapi-admin = "fastapi_admin.cli:main"
 uvloop = ["uvloop"]
 
 [[tool.poetry.source]]
-name = "douban"
-url = "https://pypi.douban.com/simple"
+#name = "douban"
+#url = "https://pypi.douban.com/simple"
+name = "tuna"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
